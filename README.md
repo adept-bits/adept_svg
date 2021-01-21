@@ -37,6 +37,13 @@ def deps do
 end
 ```
 
+To have Phoenix automatically recompile when you change your SVGs folder, add this line to the live_reload patterns section of your `dev.exs` configuration script.
+
+```elixir
+~r"lib/my_app_web/assets/svg/.*(svg)$"
+```
+
+
 ## Example wrapper module
 
 ```elixir
