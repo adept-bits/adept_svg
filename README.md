@@ -1,6 +1,6 @@
 # Adept.Svg
 
-A tiny and fast library to precompile and render inline SVGs directly into Phoenix templates and live views.
+A tiny and fast library to compile and render inline SVGs for Phoenix templates and live views.
 
 SVG files are images that are formatted as very simple, and usually small, text
 files. It is faster, and recommended, that you directly include the svg data

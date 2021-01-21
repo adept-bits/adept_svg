@@ -2,7 +2,7 @@ defmodule Adept.Svg do
   require Logger
 
   @moduledoc """
-  Simple and fast in-line SVG library and renderer for web applications.
+  A tiny and fast library to compile and render inline SVGs for Phoenix templates and live views.
 
   SVG files are images that are formatted as very simple, and usually small, text
   files. It is faster, and recommended, that you directly include the svg data
