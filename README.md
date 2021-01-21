@@ -24,6 +24,19 @@ them in directly. I recommend simply using "assets/svg".
 Each `*.svg` file must contain a single valid `<svg></svg>` tag set with data as appropriate. Anything before the `<svg>` tag or after the `</svg>` is treated as comment and stripped from the text during compilation.
 
 
+## installation
+
+If [available in Hex](https://hex.pm/docs/publish), the package can be installed
+by adding `adept_components` to your list of dependencies in `mix.exs`:
+
+```elixir
+def deps do
+  [
+    {:adept_svg, "~> 0.1.0"}
+  ]
+end
+```
+
 ## Example wrapper module
 
 ```elixir
@@ -44,6 +57,20 @@ end
 
 To use the library, you would `alias MyAppWeb.Svg` in a controller, live_view or
 your your main app module. This allows your template code to call Svg.render directly.
+
+An optional convenience step is to alias your SVG module in your myapp_web.ex file's view_helpers section. This is how it looks on my projects
+
+```elixir
+  defp view_helpers do
+    quote do
+
+      ...
+
+      alias MyAppWeb.Svg
+    end
+  end
+```
+
 
 ## Example uses in a template
 
