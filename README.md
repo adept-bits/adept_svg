@@ -1,24 +1,24 @@
-# InlineSvg
+# Adept.Svg
 
-Simple and fast in-line SVG library and renderer for web applications.
+A tiny and fast library to precompile and render inline SVGs directly into Phoenix templates and live views.
 
 SVG files are images that are formatted as very simple, and usually small, text
 files. It is faster, and recommended, that you directly include the svg data
 in-line with your web pages instead of asking the browser to make additional
 calls to servers before it can render your pages. This makes your pages load faster.
 
-`inline_svg` renders your svg files as quickly as possible. To do this, it reads
+`adept_svg` renders your svg files as quickly as possible. To do this, it reads
 the svg files at compile-time and provides runtime access through a term
 stored in your beamfile.
 
 If you use [`nimble_publisher`](https://github.com/dashbitco/nimble_publisher), this should be a familiar concept.
 
-To use `inline_svg`, you create a module in your project that wraps it, providing
+To use `adept_svg`, you create a module in your project that wraps it, providing
 a compile-time place to build the library and runtime access to it. It also happens
 to make your template svg rendering code very simple.
 
 You do __not__ need to store your svg files in the "assets/static" directory. Those files
-are copied into your application via a file based mechanism, whereas `inline_svg` compiles
+are copied into your application via a file based mechanism, whereas `adept_svg` compiles
 them in directly. I recommend simply using "assets/svg".
 
 Each `*.svg` file must contain a single valid `<svg></svg>` tag set with data as appropriate. Anything before the `<svg>` tag or after the `</svg>` is treated as comment and stripped from the text during compilation.
@@ -30,14 +30,14 @@ Each `*.svg` file must contain a single valid `<svg></svg>` tag set with data as
 defmodule MyAppWeb.Svg do
 
   # Build the library at compile time
-  @library InlineSvg.compile( "assets/svg" )
+  @library Adept.Svg.compile( "assets/svg" )
 
   # Accesses the library at run time
   defp library(), do: @library
 
   # Render an svg from the library
   def render( key, opts \\ [] ) do
-    InlineSvg.render( library(), key, opts )
+    Adept.Svg.render( library(), key, opts )
   end
 end
 ```
