@@ -32,7 +32,7 @@ by adding `adept_components` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:adept_svg, "~> 0.1.0"}
+    {:adept_svg, "~> 0.3.0"}
   ]
 end
 ```

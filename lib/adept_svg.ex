@@ -63,14 +63,12 @@ defmodule Adept.Svg do
   ```
   """
 
-
   defmodule Error do
     @moduledoc false
     defexception message: nil, svg: nil
   end
 
-
-  #--------------------------------------------------------
+  # --------------------------------------------------------
   @doc """
   Compile a folder of `*.svg` files into a library you can render from.
 
@@ -79,7 +77,7 @@ defmodule Adept.Svg do
   relative path of the svg file, minus the .svg part. For example, if you compile
   the folder "assets/svg" and it finds a file with the path "assets/svg/heroicons/calendar.svg",
   then the key for that svg is `"heroicons/calendar"` in the library.
-  
+
   ## Usage
 
   The best way to use Adept.Svg is to create a new module in your project that wraps
@@ -106,31 +104,33 @@ defmodule Adept.Svg do
   in your beam file once.
   """
   @spec compile(map(), String.t()) :: map()
-  def compile( %{} = library \\ %{}, svg_root  ) when is_bitstring(svg_root) do
+  def compile(%{} = library \\ %{}, svg_root) when is_bitstring(svg_root) do
     svg_root
-    |> Kernel.<>( "/**/*.svg" )
+    |> Kernel.<>("/**/*.svg")
     |> Path.wildcard()
-    |> Enum.reduce( library, fn(path, acc) ->
-      with {:ok, key, svg} <- read_svg( path, svg_root ),
-      :ok <- unique_key( library, key, path ) do
-        Map.put( acc, key, svg <> "</svg>" )
+    |> Enum.reduce(library, fn path, acc ->
+      with {:ok, key, svg} <- read_svg(path, svg_root),
+           :ok <- unique_key(library, key, path) do
+        Map.put(acc, key, svg <> "</svg>")
       else
         {:file_error, err, path} ->
           raise %Error{message: "SVG file #{inspect(path)} is invalid, err: #{err}", svg: path}
+
         {:duplicate, key, path} ->
           Logger.warn("SVG file: #{path} overwrites existing svg: #{key}")
       end
     end)
   end
 
-  defp read_svg( path, root ) do
-    with {:ok, svg} <- File.read( path ),
-    true <- String.valid?(svg),
-    [_,svg] <- String.split(svg, "<svg"),
-    [svg,_] <- String.split(svg, "</svg>") do
-      { 
+  defp read_svg(path, root) do
+    with {:ok, svg} <- File.read(path),
+         true <- String.valid?(svg),
+         [_, svg] <- String.split(svg, "<svg"),
+         [svg, _] <- String.split(svg, "</svg>") do
+      {
         :ok,
-        path # make the key
+        # make the key
+        path
         |> String.trim(root)
         |> String.trim("/")
         |> String.trim_trailing(".svg"),
@@ -142,18 +142,18 @@ defmodule Adept.Svg do
   end
 
   defp unique_key(library, key, path) do
-    case Map.fetch( library, key ) do
+    case Map.fetch(library, key) do
       {:ok, _} -> {:duplicate, key, path}
       _ -> :ok
     end
   end
 
-  #--------------------------------------------------------
+  # --------------------------------------------------------
   @doc """
   Renders an svg into a safe string that can be inserted directly into a Phoenix template.
 
   The named svg must be in the provided library, which should be build using the compile function.
-  
+
   _Optional_: pass in a keyword list of attributes to insert into the svg tag. This can be
   used to add `class="something"` tag attributes, phoenix directives such as `phx-click`, or
   even alpine directives such as `@click="some action"`. Note that key names containing
@@ -186,21 +186,21 @@ defmodule Adept.Svg do
       Svg.render( "heroicons/menu", "@click": "alpine_action" )
       {:safe, "<svg @click=\"alpine_action\" xmlns= ... </svg>"}
   """
-  @spec render(map(), String.t(), list()) ::String.t()
-  def render( %{} = library, key, attrs \\ [] ) do
-    case Map.fetch( library, key ) do
+  @spec render(map(), String.t(), list()) :: String.t()
+  def render(%{} = library, key, attrs \\ []) do
+    case Map.fetch(library, key) do
       {:ok, svg} -> {:safe, "<svg" <> render_attrs(attrs) <> svg}
       _ -> raise %Error{message: "SVG #{inspect(key)} not found", svg: key}
     end
   end
 
-  #--------------------------------------------------------
+  # --------------------------------------------------------
   # transform an opts list into a string of tag options
-  defp render_attrs( attrs ), do: do_render_attrs( attrs, "" )
-  defp do_render_attrs( [], acc ), do: acc
-  defp do_render_attrs( [{key,value} | tail ], acc ) do
+  defp render_attrs(attrs), do: do_render_attrs(attrs, "")
+  defp do_render_attrs([], acc), do: acc
+
+  defp do_render_attrs([{key, value} | tail], acc) do
     key = to_string(key) |> String.replace("_", "-")
-    do_render_attrs( tail, "#{acc} #{key}=#{inspect(value)}" )
+    do_render_attrs(tail, "#{acc} #{key}=#{inspect(value)}")
   end
-  
 end
