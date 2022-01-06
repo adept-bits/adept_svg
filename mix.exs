@@ -1,7 +1,7 @@
 defmodule Adept.Svg.MixProject do
   use Mix.Project
 
-  @version "0.3.0"
+  @version "0.3.1"
   @url "https://github.com/adept-bits/adept_svg"
 
   def project do

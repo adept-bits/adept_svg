@@ -84,8 +84,8 @@ An optional convenience step is to alias your SVG module in your myapp_web.ex fi
 ```elixir
 <%= Svg.render( "heroicons/menu" ) %>
 <%= Svg.render( "heroicons/user", class: "h-5 w-5 inline" ) %>
-<%= Svg.render( "heroicons/login", class: "h-5 w-5", phx_click: "action" )
-<%= Svg.render( "heroicons/logout", "@click": "alpine_action" )
+<%= Svg.render( "heroicons/login", class: "h-5 w-5", phx_click: "action" ) %>
+<%= Svg.render( "heroicons/logout", "@click": "alpine_action" ) %>
 ```
 
 ### Live reloading
