@@ -34,7 +34,7 @@ defmodule Adept.Svg.MixProject do
 
   defp package do
     %{
-      licenses: ["Apache 2"],
+      licenses: ["Apache-2.0"],
       maintainers: ["Boyd Multerer"],
       links: %{"GitHub" => @url}
     }
