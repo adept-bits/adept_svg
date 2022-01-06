@@ -35,8 +35,7 @@ defmodule Adept.SvgTest do
         Adept.Svg.compile("test/svgs/more")
         |> Adept.Svg.compile("test/svgs/more")
       end)
-
-    assert log =~ "[warn]  SVG file:"
+    assert (log =~ "[warn]  SVG file:") || (log =~ "[warning] SVG file:")
     assert log =~ "overwrites existing svg: cube"
   end
 
