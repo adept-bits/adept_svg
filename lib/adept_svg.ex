@@ -132,7 +132,7 @@ defmodule Adept.Svg do
           raise %Error{message: "SVG file #{inspect(path)} is invalid, err: #{err}", svg: path}
 
         {:duplicate, key, path} ->
-          Logger.warn("SVG file: #{path} overwrites existing svg: #{key}")
+          Logger.warning("SVG file: #{path} overwrites existing svg: #{key}")
       end
     end)
   end
