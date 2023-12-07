@@ -24,7 +24,7 @@ them in directly. I recommend simply using "assets/svg".
 Each `*.svg` file must contain a single valid `<svg></svg>` tag set with data as appropriate. Anything before the `<svg>` tag or after the `</svg>` is treated as comment and stripped from the text during compilation.
 
 
-## installation
+## Installation
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed
 by adding `adept_components` to your list of dependencies in `mix.exs`:
